@@ -1,0 +1,16 @@
+<NeuronNetwork momentumFactor="0.9" learningFactor="0.25">
+	<Layer>
+		<Neuron ID="0" bias="0">
+			<Synapse ID="1" Weight="1"/>
+		</Neuron>
+	</Layer>
+	<Layer>
+		<Neuron ID="1" bias="0">
+			<Synapse ID="2" Weight="1"/>
+		</Neuron>
+	</Layer>
+	<Layer>
+		<Neuron ID="2" bias="0"/>
+	</Layer>
+</NeuronNetwork>
+
