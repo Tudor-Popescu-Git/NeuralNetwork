@@ -7,6 +7,7 @@
 
 #include "stdafx.h"
 #include <chrono>
+#include <iostream>
 #include "../_h/Barrier.h"
 #include "../_h/Common.h"
 #include "../_h/Neuron.h"
@@ -53,14 +54,32 @@ void Testcase::testInput() {
 	NeuronNetwork nn(Layers);
 	nn.activate(input);
 }
-void Testcase::testIO(void){
+void Testcase::testIO(void) {
+	using std::cout;
+	using std::endl;
 	vector<int> Layers = { 1, 1, 1 };
 	vector<double> input = { 0.1 };
 	vector<double> output = { 0.9 };
 	NeuronNetwork nn(Layers, 0.25, 0.9);
-	for (int i = 0; i < 100; i++) {
+
+	auto dump = [&](int iter) {
+		nn.activate(input);
+		double y = *nn.outputs[0];
+		// weight of the single synapse going INTO the output neuron
+		double w = nn.layers[1]->neurons[0]->to[0]->weight;
+		double b = nn.layers[2]->neurons[0]->bias;
+		cout << "iter " << iter
+			<< "  out=" << y
+			<< "  err=" << (output[0] - y)
+			<< "  w(hidden->out)=" << w
+			<< "  bias(out)=" << b << endl;
+		};
+
+	dump(0);
+	for (int i = 1; i <= 100; i++) {
 		nn.activate(input);
 		nn.backprop(output);
+		if (i % 10 == 0) dump(i);
 	}
 }
 void Testcase::testDiviser(void) {
@@ -94,12 +113,12 @@ void Testcase::testDiviser(void) {
 }
 void Testcase::doTests(void) {
 	//testInput();
-	//testIO();
+	testIO();
 	//testBarrier();
 	//testThreadpool();
 	//testDiviser();
 	//testXmlWriter();
-	testRapidXml();
+	//testRapidXml();
 }
 void localSignalAndWait(barrier &b) {
 	for (int i = 0; i < 1000; i++) {

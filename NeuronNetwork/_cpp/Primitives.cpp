@@ -69,8 +69,8 @@ int sigmoidDeltaV(vector<double*>& input, vector<double*>& bias,
 int sigmoid_DV(vector<double*> &input, vector<double*> &output) {
 	auto inputIt = input.begin(), outputIt = output.begin();
 	double temp;
-	sigmoid(**inputIt, temp);
 	for (; inputIt != input.end(); inputIt++, outputIt++) {
+		sigmoid(**inputIt, temp);
 		**outputIt = temp * (1 - temp);
 	}
 	return 0;
